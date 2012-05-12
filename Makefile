@@ -13,10 +13,9 @@ $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 	$(LINT) $^
 	$(COFFEE) -j $@ -c $^
 
-
 $(BUILD)/server.js: $(SERVER_SRC) | $(NODE_MODULES) $(BUILD)
 	$(LINT) $<
-	$(COFFEE) -o $(BUILD) --compile $<
+	$(COFFEE) -j $@ -c $<
 
 $(BUILD):
 	mkdir -p $@
