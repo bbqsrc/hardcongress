@@ -27,9 +27,8 @@ $(BUILD)/app.html:
 $(BUILD)/client.min.js: $(BUILD)/client.js
 	$(JSHINT) $^ --config $(BASEDIR)/jshintrc-client.json
 	rm -f $(BUILD)/client.cat.js
-	for srcfile in $(CLIENT_DEPS) $^; do \
-		echo -E "$$(cat $$srcfile);"; \
-	done | $(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
+	cat $(CLIENT_DEPS) $^ | \
+		$(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
 
 $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 	$(COFFEELINT) $^
