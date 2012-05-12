@@ -4,10 +4,13 @@ NODE_MODULES=$(BASEDIR)/node_modules
 NODE_BIN=$(NODE_MODULES)/.bin
 COFFEE=$(NODE_BIN)/coffee
 LINT=$(NODE_BIN)/coffeelint
+UGLIFYJS=$(NODE_BIN)/uglifyjs
+JSHINT=$(NODE_BIN)/jshint
 CLIENT_SRC=$(shell find $(BASEDIR)/client/src -type f -name "*.coffee")
+CLIENT_DEPS="$(NODE_MODULES)/backbone/backbone.js $(BASEDIR)/deps/jquery-1.7.2.js"
 SERVER_SRC=$(shell find $(BASEDIR)/server -type f -name "*.coffee")
 
-build: $(BUILD)/server.js $(BUILD)/client.js
+build: $(BUILD)/server.js $(BUILD)/client.min.js $(BUILD)/app.html
 
 watch:
 	make -j2 watch-client watch-server
@@ -17,6 +20,15 @@ watch-client: $(BUILD)/client.js $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 
 watch-server: $(BUILD)/server.js $(SERVER_SRC) | $(NODE_MODULES) $(BUILD)
 	$(COFFEE) -j $< -cw $(subst $<,,$^)
+
+$(BUILD)/app.html:
+	cp $(BASEDIR)/client/app.html $@
+	
+$(BUILD)/client.min.js: $(BUILD)/client.js
+	rm -f $(BUILD)/client.cat.js
+	for srcfile in $(CLIENT_DEPS) $^; do \
+		echo $$(cat $$srcfile) ";"; \
+	done | $(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
 
 $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 	$(LINT) $^
