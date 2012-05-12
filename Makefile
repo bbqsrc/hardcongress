@@ -29,7 +29,7 @@ $(BUILD)/app.html:
 $(BUILD)/client.min.js: $(CLIENT_DEPS) $(BUILD)/client.js
 	$(JSHINT) $(BUILD)/client.js --config $(BASEDIR)/jshintrc-client.json
 	rm -f $(BUILD)/client.cat.js
-	cat $< | $(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
+	cat $^ | $(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
 
 $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 	$(COFFEELINT) $^
@@ -37,7 +37,7 @@ $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 
 $(BUILD)/server.js: $(SERVER_SRC) | $(NODE_MODULES) $(BUILD)
 	$(COFFEELINT) $<
-	$(COFFEE) -j $@ -c -b $<
+	$(COFFEE) -j $@ -c -b $^
 
 $(BUILD):
 	mkdir -p $@
