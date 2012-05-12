@@ -4,6 +4,12 @@ CLIENT_FILES =
   "/": __dirname + "/app.html"
   "/client.min.js": __dirname + "/client.min.js"
 
+idCounter = 0
+
+state =
+  mode: "none"
+  statuses: {}
+  
 handler = (req, res) ->
   resFile = CLIENT_FILES[req.url]
 
@@ -29,7 +35,20 @@ io.sockets.on "connection", (socket) ->
   console.log "connection get!"
 
   socket.on "session", (data) ->
-    console.log arguments
+    # TODO: handle data.token being absent
+    unless data.token of state.statuses
+      state.statuses[data.token] =
+        id: idCounter++
+        name: ""
+        message: ""
+        state: ""
+        attention: no
+    socket.emit "session", state.statuses[data.token]
 
   socket.on "set", (data) ->
+    return unless data.token?
+    t = data.token
     socket.emit "set", data
+    for k, v of data
+      state.statuses[t][k] = v if k in ["name", "message", "state", "attention"]
+    socket.broadcast.emit "update", state.statuses[data.token]
