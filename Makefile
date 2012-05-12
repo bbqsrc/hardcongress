@@ -25,6 +25,7 @@ $(BUILD)/app.html:
 	cp $(BASEDIR)/client/app.html $@
 	
 $(BUILD)/client.min.js: $(BUILD)/client.js
+	$(JSHINT) $^ --config $(BASEDIR)/jshintrc-client.json
 	rm -f $(BUILD)/client.cat.js
 	for srcfile in $(CLIENT_DEPS) $^; do \
 		echo $$(cat $$srcfile) ";"; \

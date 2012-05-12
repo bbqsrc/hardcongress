@@ -1,0 +1,14 @@
+{
+    "passfail": true,
+
+    "es5" : true,
+    "browser" : true,
+
+    "predef": [
+      "io",
+      "Backbone",
+      "_",
+      "$",
+      "jQuery"
+    ]
+}
