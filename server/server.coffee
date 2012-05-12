@@ -1,5 +1,3 @@
-http = require("http")
-io = require("socket.io").listen(app)
 fs = require("fs")
 
 CLIENT_FILES =
@@ -21,8 +19,10 @@ handler = (req, res) ->
         res.writeHead 200
         res.end data
 
+app = require("http").createServer(handler)
+io = require("socket.io").listen(app)
+
+app.listen "9180"
+
 io.sockets.on "connection", (socket) ->
   console.log "connection get!"
-
-app = http.createServer(handler)
-app.listen "9180"
