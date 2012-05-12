@@ -22,6 +22,8 @@ handler = (req, res) ->
         res.writeHead 500
         res.end err.toString()
       else
+        if /\.js$/.test(req.url)
+          res.setHeader("Content-Type", "application/javascript")
         res.writeHead 200
         res.end data
 
