@@ -7,7 +7,7 @@ COFFEELINT=$(NODE_BIN)/coffeelint
 UGLIFYJS=$(NODE_BIN)/uglifyjs
 JSHINT=$(NODE_BIN)/jshint
 CLIENT_SRC=$(shell find $(BASEDIR)/client/src -type f -name "*.coffee")
-CLIENT_DEPS="$(NODE_MODULES)/backbone/backbone.js $(BASEDIR)/deps/jquery-1.7.2.js"
+CLIENT_DEPS=$(NODE_MODULES)/backbone/backbone.js $(BASEDIR)/deps/jquery-1.7.2.js
 SERVER_SRC=$(shell find $(BASEDIR)/server -type f -name "*.coffee")
 
 build: $(BUILD)/server.js $(BUILD)/client.min.js $(BUILD)/app.html
@@ -28,7 +28,7 @@ $(BUILD)/client.min.js: $(BUILD)/client.js
 	$(JSHINT) $^ --config $(BASEDIR)/jshintrc-client.json
 	rm -f $(BUILD)/client.cat.js
 	for srcfile in $(CLIENT_DEPS) $^; do \
-		echo -E $$(cat $$srcfile) ";"; \
+		echo -E "$$(cat $$srcfile);"; \
 	done | $(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
 
 $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
