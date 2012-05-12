@@ -1,5 +1,6 @@
 class HardCongress.Client
-  constructor: (@sessionId) ->
+  constructor: (@token) ->
+    socket.emit "session", token: @token
     # TODO: check for valid session
   
   setName: (@name) ->

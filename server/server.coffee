@@ -25,4 +25,8 @@ io = require("socket.io").listen(app)
 app.listen "9180"
 
 io.sockets.on "connection", (socket) ->
+  socket.emit "connected", {message: "winner!"}
   console.log "connection get!"
+
+  socket.on "session", (data) ->
+    console.log arguments
