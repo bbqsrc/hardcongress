@@ -9,7 +9,8 @@ SERVER_SRC=$(shell find $(BASEDIR)/server -type f -name "*.coffee")
 
 build: $(BUILD)/server.js $(BUILD)/client.js
 
-watch: watch-client watch-server
+watch:
+	make -j2 watch-client watch-server
 
 watch-client: $(BUILD)/client.js $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 	$(COFFEE) -j $< -cw $(subst $<,,$^)
