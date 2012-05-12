@@ -22,6 +22,6 @@ HardCongress.DashboardClientView = Backbone.View.extend
       message: @model.message or ""
     )
     node.find(".attention").addClass('active') if @model.attention
-    $(@el).empty().append(node);
+    $(@el).empty().append(node)
     return @
     
