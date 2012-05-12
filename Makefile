@@ -36,7 +36,7 @@ $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
 
 $(BUILD)/server.js: $(SERVER_SRC) | $(NODE_MODULES) $(BUILD)
 	$(COFFEELINT) $<
-	$(COFFEE) -j $@ -c $<
+	$(COFFEE) -b -j $@ -c $<
 
 $(BUILD):
 	mkdir -p $@

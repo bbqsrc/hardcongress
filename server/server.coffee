@@ -1,12 +1,10 @@
-app = require("http").createServer(handler)
+http = require("http")
 io = require("socket.io").listen(app)
 fs = require("fs")
 
 CLIENT_FILES =
   "/": __dirname + "/app.html"
   "/client.min.js": __dirname + "/client.min.js"
-
-app.listen "9180"
 
 handler = (req, res) ->
   resFile = CLIENT_FILES[req.url]
@@ -25,3 +23,6 @@ handler = (req, res) ->
 
 io.sockets.on "connection", (socket) ->
   console.log "connection get!"
+
+app = http.createServer(handler)
+app.listen "9180"
