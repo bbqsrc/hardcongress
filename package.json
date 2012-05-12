@@ -1,0 +1,23 @@
+{
+  "name": "hardcongress",
+  "version": "0.1.0",
+  "contributors": [
+    {"name": "Jack Coulter", "email": "jscinoz@jscinoz.org"}, 
+    {"name": "Bredan Molloy", "email": "brendan@bbqsrc.net"} 
+  ],
+  "description": "A simple, transient voting system for seamless integration of remote delegates into a harsh, real world.",
+  "dependencies": {
+    "socket.io": "0.9.x"
+  },
+  "devDependencies": {
+    "coffee-script": "1.3.x",
+    "coffeelint": "0.4.x"
+  },
+  "optionalDependencies": {},
+  "engines": {
+    "node": "0.6.x"
+  },
+  "repository": {
+    "url": ""
+  }
+}
