@@ -3,7 +3,7 @@ BUILD=$(BASEDIR)/build
 NODE_MODULES=$(BASEDIR)/node_modules
 NODE_BIN=$(NODE_MODULES)/.bin
 COFFEE=$(NODE_BIN)/coffee
-LINT=$(NODE_BIN)/coffeelint
+COFFEELINT=$(NODE_BIN)/coffeelint
 UGLIFYJS=$(NODE_BIN)/uglifyjs
 JSHINT=$(NODE_BIN)/jshint
 CLIENT_SRC=$(shell find $(BASEDIR)/client/src -type f -name "*.coffee")
@@ -28,15 +28,15 @@ $(BUILD)/client.min.js: $(BUILD)/client.js
 	$(JSHINT) $^ --config $(BASEDIR)/jshintrc-client.json
 	rm -f $(BUILD)/client.cat.js
 	for srcfile in $(CLIENT_DEPS) $^; do \
-		echo $$(cat $$srcfile) ";"; \
+		echo -E $$(cat $$srcfile) ";"; \
 	done | $(UGLIFYJS) --unsafe --lift-vars --no-copyright -o $@
 
 $(BUILD)/client.js: $(CLIENT_SRC) | $(NODE_MODULES) $(BUILD)
-	$(LINT) $^
+	$(COFFEELINT) $^
 	$(COFFEE) -j $@ -c $^
 
 $(BUILD)/server.js: $(SERVER_SRC) | $(NODE_MODULES) $(BUILD)
-	$(LINT) $<
+	$(COFFEELINT) $<
 	$(COFFEE) -j $@ -c $<
 
 $(BUILD):

@@ -13,16 +13,15 @@ handler = (req, res) ->
 
   if !resFile
     res.writeHead 404
-    return res.end "File not found"
-
-  fs.readFile resFile, (err, data) ->
-    if err
-      res.writeHead 500
-      return res.end err.toString()
-
-    res.writeHead 200
-    res.end data
+    res.end "File not found"
+  else
+    fs.readFile resFile, (err, data) ->
+      if err
+        res.writeHead 500
+        res.end err.toString()
+      else
+        res.writeHead 200
+        res.end data
 
 io.sockets.on "connection", (socket) ->
-  socket.emit "derp", {foo: "bar"}
   console.log "connection get!"
