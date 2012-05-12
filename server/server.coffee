@@ -30,3 +30,6 @@ io.sockets.on "connection", (socket) ->
 
   socket.on "session", (data) ->
     console.log arguments
+
+  socket.on "set", (data) ->
+    socket.emit "set", data

@@ -1,21 +1,23 @@
 class HardCongress.Client
+  views: []
+
   constructor: (@token) ->
     socket.emit "session", token: @token
+    
+    socket.on "set", (data) =>
+      for k, v of data
+        @[k] = v if k in ['name', 'message', 'state', 'attention']
+      view.render() for view in @views
     # TODO: check for valid session
   
-  setName: (@name) ->
-    # TODO: send name setting message
-    return @name
+  setName: (name) ->
+    socket.emit "set", name: name
   
-  setMessage: (@message) ->
-    # TODO: send message setting message
-    return @message
+  setMessage: (message) ->
+    socket.emit "set", message: message
   
-  setState: (@state) ->
-    # TODO: send state setting message
-    return @state
+  setState: (state) ->
+    socket.emit "set", state: state
 
   setAttention: (attention) ->
-    @attention = !!attention
-    # TODO: send attention setting message
-    return @attention
+    socket.emit "set", attention: !!attention
