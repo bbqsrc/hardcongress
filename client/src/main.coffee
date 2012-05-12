@@ -10,10 +10,6 @@ HardCongress.init = ->
   client = new HardCongress.Client(hash)
   
   # TODO: remove this; just for testing
-  socket.on "update", (data) ->
-    console.log("update")
-    console.log(data)
-  
   socket.on "new connection", (data) ->
     console.log('new connection')
     console.log(data)

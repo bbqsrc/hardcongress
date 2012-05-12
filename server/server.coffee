@@ -33,7 +33,7 @@ io = require("socket.io").listen(app)
 app.listen "9180"
 
 io.sockets.on "connection", (socket) ->
-  socket.on "session", (data) ->
+  socket.on "connect", (data) ->
     # TODO: handle data.token being absent
     unless data.token of state.statuses
       state.statuses[data.token] =
@@ -43,7 +43,8 @@ io.sockets.on "connection", (socket) ->
         state: ""
         attention: no
     statuses = (status for _, status of state.statuses)
-    socket.emit "session", statuses
+    socket.emit "connect", statuses
+    socket.emit "initial state", state.statuses[data.token]
     socket.broadcast.emit "new connection", state.statuses[data.token]
 
   socket.on "set", (data) ->
@@ -51,5 +52,6 @@ io.sockets.on "connection", (socket) ->
     t = data.token
     for k, v of data
       state.statuses[t][k] = v if k in ["name", "message", "state", "attention"]
-    socket.emit "set", data
+    socket.emit "set", state.statuses[data.token]
+    socket.emit "update", state.statuses[data.token]
     socket.broadcast.emit "update", state.statuses[data.token]

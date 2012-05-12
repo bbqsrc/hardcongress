@@ -6,14 +6,21 @@
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/client.min.js"></script>
 		<script>
-client = HardCongress.init();
+$(function() {
+	window.dashboard = new HardCongress.DashboardView({})
+	if (location.hash) {
+		window.client = HardCongress.init()
+		client.views.push(dashboard)
+	}
+	$("#viewport").append(dashboard.el)
+});
 		</script>
 	</head>
 	<body>
 		<header>
 			<h1>HardCongress</h1>
 		</header>
-		<section id="main">
+		<section id="viewport">
 			
 		</section>
 		<footer>
