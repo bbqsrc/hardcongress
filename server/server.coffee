@@ -31,9 +31,6 @@ io = require("socket.io").listen(app)
 app.listen "9180"
 
 io.sockets.on "connection", (socket) ->
-  socket.emit "connected", {message: "winner!"}
-  console.log "connection get!"
-
   socket.on "session", (data) ->
     # TODO: handle data.token being absent
     unless data.token of state.statuses
@@ -43,12 +40,14 @@ io.sockets.on "connection", (socket) ->
         message: ""
         state: ""
         attention: no
-    socket.emit "session", state.statuses[data.token]
+    statuses = (status for _, status of state.statuses)
+    socket.emit "session", statuses
+    socket.broadcast.emit "new connection", state.statuses[data.token]
 
   socket.on "set", (data) ->
     return unless data.token?
     t = data.token
-    socket.emit "set", data
     for k, v of data
       state.statuses[t][k] = v if k in ["name", "message", "state", "attention"]
+    socket.emit "set", data
     socket.broadcast.emit "update", state.statuses[data.token]

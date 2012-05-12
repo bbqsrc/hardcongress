@@ -11,6 +11,11 @@ HardCongress.init = ->
   
   # TODO: remove this; just for testing
   socket.on "update", (data) ->
+    console.log("update")
+    console.log(data)
+  
+  socket.on "new connection", (data) ->
+    console.log('new connection')
     console.log(data)
   
   return client

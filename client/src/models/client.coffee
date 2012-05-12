@@ -5,10 +5,16 @@ class HardCongress.Client
     socket.emit "session", token: @token
     
     socket.on "session", (data) =>
+      console.log("session")
+      console.log(data)
+      
       @id = data.id if data.id?
       # TODO: check for fail condition
     
     socket.on "set", (data) =>
+      console.log("set")
+      console.log(data)
+      
       for k, v of data
         @[k] = v if k in ['name', 'message', 'state', 'attention']
       view.render() for view in @views
