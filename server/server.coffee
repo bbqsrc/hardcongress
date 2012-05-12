@@ -3,6 +3,7 @@ fs = require("fs")
 CLIENT_FILES =
   "/": __dirname + "/app.html"
   "/client.min.js": __dirname + "/client.min.js"
+  "/client.css": __dirname + "/client.css"
 
 idCounter = 0
 

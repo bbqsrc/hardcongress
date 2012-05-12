@@ -5,6 +5,7 @@
 		<title>HardCongress</title>
 		<script src="/socket.io/socket.io.js"></script>
 		<script src="/client.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="/client.css">
 		<script>
 $(function() {
 	window.dashboard = new HardCongress.DashboardView({})
@@ -17,14 +18,16 @@ $(function() {
 		</script>
 	</head>
 	<body>
-		<header>
-			<h1>HardCongress</h1>
-		</header>
-		<section id="viewport">
-			
-		</section>
-		<footer>
-			Copyright &copy; 2012
-		</footer>
+		<div class="container">
+			<header>
+				<h1>HardCongress</h1>
+			</header>
+			<section id="viewport">
+				
+			</section>
+			<footer>
+				Copyright &copy; 2012
+			</footer>
+		</div>
 	</body>
 </html>

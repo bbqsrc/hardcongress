@@ -16,11 +16,13 @@ HardCongress.DashboardView = Backbone.View.extend
       
     socket.on "new connection", (data) =>
       if @views[data.id]?
-        @view[data.id].model = data
-        @view[data.id].render()
+        @views[data.id].model = data
+        @views[data.id].render()
       else
         @views[data.id] = new HardCongress.DashboardClientView(model: data)
         $(@el).append(@views[data.id].render().el)
+    
+    return
     
   render: ->
     $(@el).empty()
@@ -28,14 +30,13 @@ HardCongress.DashboardView = Backbone.View.extend
     return @
   
 HardCongress.DashboardClientView = Backbone.View.extend
-  tagName: "article"
-  className: "dashboard-client row"
+  tagName: "div"
+  className: "client row"
   
   template: """
   <div class='name span2'>{{ name }}</div>
-  <div class='state span2'>{{ state }}</div>
+  <div class='state span4'>{{ state }}</div>
   <div class='message span6'>{{ message }}</div>
-  <div class='attention span2'></div>
   """
   
   render: ->
@@ -44,7 +45,7 @@ HardCongress.DashboardClientView = Backbone.View.extend
       state: @model.state or ""
       message: @model.message or ""
     )
-    node.find(".attention").addClass('active') if @model.attention
+    $(@el).addClass('attention') if @model.attention
     $(@el).empty().append(node)
     return @
     
