@@ -6,6 +6,7 @@ COFFEE=$(NODE_BIN)/coffee
 COFFEELINT=$(NODE_BIN)/coffeelint
 UGLIFYJS=$(NODE_BIN)/uglifyjs
 JSHINT=$(NODE_BIN)/jshint
+RECESS=$(NODE_BIN)/recess
 CLIENT_SRC=$(shell find $(BASEDIR)/client/src -type f -name "*.coffee")
 CLIENT_DEPS=$(BASEDIR)/deps/jquery-1.7.2.js \
 			$(NODE_MODULES)/backbone/node_modules/underscore/underscore.js \
@@ -36,7 +37,7 @@ $(BOOTSTRAP_CSS):
 	cd $(BASEDIR)/deps/bootstrap && make
 
 $(BUILD)/client.css: $(CLIENT_LESS)
-	recess --compile $^ > $(BUILD)/less.css
+	$(RECESS) --compile $^ > $(BUILD)/less.css
 	cat $(BUILD)/less.css $(BOOTSTRAP_CSS) > $@
 	rm $(BUILD)/less.css
 
