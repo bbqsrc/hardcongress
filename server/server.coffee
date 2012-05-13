@@ -25,6 +25,8 @@ handler = (req, res) ->
       else
         if /\.js$/.test(req.url)
           res.setHeader("Content-Type", "application/javascript")
+        else if /\.css$/.test(req.url)
+          res.setHeader("Content-Type", "text/css")
         res.writeHead 200
         res.end data
 

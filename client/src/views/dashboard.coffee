@@ -6,7 +6,6 @@ HardCongress.DashboardView = Backbone.View.extend
   initialize: ->
     socket.on "connect", (data) =>
       for _, status of data
-        console.log(status)
         @views[status.id] = new HardCongress.DashboardClientView(model: status)
       @render()
     

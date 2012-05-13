@@ -8,12 +8,15 @@
 		<link rel="stylesheet" type="text/css" href="/client.css">
 		<script>
 $(function() {
-	window.dashboard = new HardCongress.DashboardView({})
+	window.dashboard = new HardCongress.DashboardView({});
 	if (location.hash) {
-		window.client = HardCongress.init()
-		client.views.push(dashboard)
+		window.client = HardCongress.init();
+		window.enduser = new HardCongress.EndUserView({model: client});
+		client.views.push(dashboard);
+		client.views.push(enduser)
+		$("#viewport").append(enduser.render().el);
 	}
-	$("#viewport").append(dashboard.el)
+	$("#viewport").prepend(dashboard.el);
 });
 		</script>
 	</head>
