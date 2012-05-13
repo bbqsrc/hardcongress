@@ -46,8 +46,6 @@ io.sockets.on "connection", (socket) ->
   socket.on "connect", (data) ->
     return unless data.token?
     
-    # Stop telling the client they can remove the line, it's coming back
-    delete state.removes[socket.id]
     
     unless data.token of state.statuses
       state.statuses[data.token] =
@@ -57,10 +55,15 @@ io.sockets.on "connection", (socket) ->
         state: ""
         attention: no
     statuses = (status for _, status of state.statuses)
-    state.sessions[socket.id] = state.statuses[data.token].id
+    id = state.statuses[data.token].id
+    state.sessions[socket.id] = id
+    
+    # Stop telling the client they can remove the line, it's coming back
+    clearTimeout(state.removes[id])
+    delete state.removes[id]
     
     socket.emit "connect", statuses
-    socket.emit "initial state", state.statuses[data.token]
+    socket.emit "set", state.statuses[data.token]
     socket.broadcast.emit "new connection", state.statuses[data.token]
 
   socket.on "set", (data) ->
@@ -74,10 +77,12 @@ io.sockets.on "connection", (socket) ->
     socket.broadcast.emit "update", state.statuses[data.token]
   
   socket.on "disconnect", (data) ->
-    socket.broadcast.emit "disconnect", id: state.sessions[socket.id]
+    id = state.sessions[socket.id]
+    socket.broadcast.emit "disconnect", id: id
     
     # Tell the client they can remove the view entirely after timeout
-    state.removes[socket.id] = setTimeout(() ->
+    state.removes[id] = setTimeout(() ->
       socket.broadcast.emit "remove", id: state.sessions[socket.id]
       delete state.sessions[socket.id]
     , DISCONNECT_TIMEOUT)
+
