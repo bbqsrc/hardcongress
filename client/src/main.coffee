@@ -1,5 +1,7 @@
 @HardCongress = HardCongress = {}
 
+@DEBUG = DEBUG = on
+
 _.templateSettings =
   interpolate: /\{\{(.+?)\}\}/g
 
@@ -9,9 +11,9 @@ HardCongress.init = ->
   hash = location.hash.substr(1)
   client = new HardCongress.Client(hash)
   
-  # TODO: remove this; just for testing
-  socket.on "new connection", (data) ->
+  (socket.on "new connection", (data) ->
     console.log('new connection')
     console.log(data)
+  ) if DEBUG
   
   return client

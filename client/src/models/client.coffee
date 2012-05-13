@@ -7,15 +7,15 @@ class HardCongress.Client
     socket.emit "connect", token: @token
     
     socket.on "initial state", (data) =>
-      console.log("initial state")
-      console.log(data)
+      (console.log("initial state")
+      console.log(data)) if DEBUG
       
       @id = data.id if data.id?
       # TODO: check for fail condition
     
     socket.on "set", (data) =>
-      console.log("set")
-      console.log(data)
+      (console.log("set")
+      console.log(data)) if DEBUG
       
       for k, v of data
         @[k] = v if k in Client.attributes

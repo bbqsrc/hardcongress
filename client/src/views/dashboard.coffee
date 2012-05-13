@@ -16,10 +16,21 @@ HardCongress.DashboardView = Backbone.View.extend
     socket.on "new connection", (data) =>
       if @views[data.id]?
         @views[data.id].model = data
-        @views[data.id].render()
+        @views[data.id].render().connected()
       else
         @views[data.id] = new HardCongress.DashboardClientView(model: data)
         $(@el).append(@views[data.id].render().el)
+    
+    socket.on "disconnect", (data) =>
+      (console.log "disconnect"
+      console.log data) if DEBUG
+      @views[data.id]?.disconnected()
+    
+    socket.on "remove", (data) =>
+      (console.log "remove"
+      console.log data) if DEBUG
+      @views[data.id]?.remove()
+      delete @views[data.id]
     
     return
     
@@ -37,6 +48,18 @@ HardCongress.DashboardClientView = Backbone.View.extend
   <div class='state span4'>{{ state }}</div>
   <div class='message span6'>{{ message }}</div>
   """
+  
+  connected: ->
+    $(@el).removeClass('disconnected')
+    return @
+  
+  disconnected: ->
+    $(@el).addClass('disconnected')
+    return @
+    
+  remove: ->
+    $(@el).remove()
+    return @
   
   render: ->
     node = $(_.template(@template)
