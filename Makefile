@@ -7,7 +7,8 @@ COFFEELINT=$(NODE_BIN)/coffeelint
 UGLIFYJS=$(NODE_BIN)/uglifyjs
 JSHINT=$(NODE_BIN)/jshint
 RECESS=$(NODE_BIN)/recess
-CLIENT_SRC=$(shell find $(BASEDIR)/client/src -type f -name "*.coffee")
+CLIENT_MAIN=$(BASEDIR)/client/src/main.coffee $(BASEDIR)/client/src/router.coffee
+CLIENT_SRC=$(CLIENT_MAIN) $(shell find $(BASEDIR)/client/src/* -type f -name "*.coffee")
 CLIENT_DEPS=$(BASEDIR)/deps/jquery-1.7.2.js \
 			$(NODE_MODULES)/backbone/node_modules/underscore/underscore.js \
 			$(NODE_MODULES)/backbone/backbone.js
